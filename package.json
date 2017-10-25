@@ -1,0 +1,36 @@
+{
+  "name": "netology-nd-drone-cafe",
+  "version": "1.0.0",
+  "description": "В рамках дипломного проект необходимо разработать систему автоматизации ресторана, в котором вместо официантов используются автономные дроны, а заказ размещается через простое веб-приложение.",
+  "main": "index.js",
+  "dependencies": {
+    "chai": "^3.4.2",
+    "express": "^4.15.4",
+    "git": "^0.1.5",
+    "http": "^0.0.0",
+    "log4js": "^2.3.3",
+    "mocha": "^4.0.0",
+    "mongodb": "^2.2.16",
+    "mongoose": "^4.12.3",
+    "netology-fake-drone-api": "^1.0.1",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "mocha ./index.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/netology-university/drone-cafe.git"
+  },
+  "keywords": [],
+  "author": "Symbyanz <pankratov.symbyanz@bk.ru>",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/netology-university/drone-cafe#readme",
+  "private": true,
+  "engines": {
+    "node": "6.11.x",
+    "npm": "5.5.x"
+  }
+}
