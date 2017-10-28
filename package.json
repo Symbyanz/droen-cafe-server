@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/netology-university/drone-cafe.git"
+    "url": "https://github.com/Symbyanz/droen-cafe-server"
   },
   "keywords": [],
   "author": "Symbyanz <pankratov.symbyanz@bk.ru>",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/netology-university/drone-cafe#readme",
+  "homepage": "https://github.com/Symbyanz/droen-cafe-server",
   "private": true,
   "engines": {
     "node": "6.11.x",
