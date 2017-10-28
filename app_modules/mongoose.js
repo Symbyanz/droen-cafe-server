@@ -55,8 +55,12 @@ const user     = mongoose.model('user', UserScheme);
 
 
 // --- work with users --- 
-// возвращает либо данные о юзере,
-// либо false (в случае ошибки)
+
+// принимает -> data_user = {email: "xxx", name: "xxx или ничего"}
+// | перенаправляет данные в функцию getUser, которая возвращает либо объект пользователя,
+//         и сама тогда  возвращает <- данные о пользователе 
+// | либо ошибку, тогда вызывает функцию addUser и передает ей данные, получает объект
+//         и сама  возвращает <- данные о новом пользователе  
 function loginUser(data_user) {
 	return new Promise ((res, rej) => {
 
@@ -77,7 +81,10 @@ function loginUser(data_user) {
 };
 
 
-// no exports..
+// не экспортируема функция 
+// принимает -> объект, который !обязательно содержит email, иначе вернет <- false
+// | создает пользователя 
+//  возвращает <- объект с новым пользователем
 function addUser(data_user) {
 	return new Promise((res, rej) => {
 		if(data_user.email === undefined) res(false);
@@ -93,6 +100,11 @@ function addUser(data_user) {
 		}
 	})
 };
+
+// Не экспортируемая функция 
+// принимает -> объект с содержанием email
+// | ищет пользователя по email
+// возвращает <- объект пользователя
 function getUser(data_user) {
 	return new Promise((res, rej) => {
 		if(data_user.email === undefined) res(false);
@@ -104,6 +116,9 @@ function getUser(data_user) {
 		}
 	})
 };
+// принимает -> id и balance пользователя
+// | делает изменения в объекте пользователся
+// возвращает <- true, если всё ок, false, если всё плохо
 function updateUserBalance(id_user, balance_user) {
 	return new Promise((res,rej) => {
 		user.findOne({_id: id_user}, (err, docs) => {
@@ -117,7 +132,10 @@ function updateUserBalance(id_user, balance_user) {
 		})
 	})
 }
-
+// принимает -> id пользователя и данные нового ордера
+// | ищет пользователя, если не находит возвращает -> false
+// | если находит, обновляет его данные, добавляя в массив его заказов новый
+// возвращает <- true
 function newUserOrder(id_user, newOrder_user) {
 	return new Promise((res, rej) => {
 		user.findOne({_id: id_user}, (err, docs) => {
@@ -132,7 +150,9 @@ function newUserOrder(id_user, newOrder_user) {
 }
 
 //---------------------------------------------------------------
-
+// принимает -> ничего
+// | ищет блюда если не находит, то возвращает <- false , иначе 
+// возвращает <- true
 function getMenu() {
 	return new Promise((res, rej) => {
 		menu.find({}, (err,docs) => {
@@ -141,7 +161,10 @@ function getMenu() {
 		})
 	})
 }
-
+// принимает -> id блюда
+// | делает проверку на id.. Если id = undefined возвращает <- false 
+// | иначе ищет блюдо с этим id, если не находит возвращает <- false
+// иначе возвращает <- объект с блюдом
 function getDish(id) {
 	return new Promise((res, rej) => {
 		if(id === undefined) res(false);
@@ -154,7 +177,13 @@ function getDish(id) {
 	})
 }
 
-// function is not exports
+// функция не экспортируется
+// принимает -> объект блюда
+// | делает проверки .. если чего-то не указано  возвращает <- false
+// | иначе создает в меню новое блюдо, если не удача возвращает <- false
+// иначе возвращает <- true
+
+// использовал лишь для заполнения mongodb блюдами
 function addDish(data_dish) {
 	return new Promise((res, rej) => {
 		if(data_dish.title === undefined || 
@@ -181,7 +210,14 @@ function addDish(data_dish) {
 			}
 		})
 };
+// функция не экспортируется
+// принимает -> объект большого колличества блюд
+// | ищет соответствие каждого из блюд в меню, если находит
+// | возвращает <- true и продолжает..
+// | иначе вызывает функцию addDish которой передает это блюдо
+// возвращает <- ответ функции addDish и продолжает..
 
+// использовал лишь для заполнения mongodb блюдами
 function addDishes(data_dishes) {
 	return new Promise((res, rej) => {
 		if(typeof(data_dishes) === 'object'){
