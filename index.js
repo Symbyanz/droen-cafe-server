@@ -4,7 +4,9 @@
 const app = require('./app_modules/express.js');
 const server = require('http').Server(app); 
 const io = require('socket.io')(server); 
-const db = require('./app_modules/mongoose.js');
+const order_db = require('./app_modules/mongo_db/order_db.js');
+const menu_db = require('./app_modules/mongo_db/menu_db.js');
+const user_db = require('./app_modules/mongo_db/user_db.js');
 //-------------------------------------------------------------------------------------
 
 let port				= process.env.PORT || 3000;
@@ -19,11 +21,11 @@ io.on('connection', function (socket) {
 	console.log('user connection');
 
 	socket.on('updateUserBalance', function(user) {
-		db.updateUserBalance(user._id, user.balance);
+		user_db.updateUserBalance(user.email, user.balance);
 	});
 
 	socket.on('newUserOrder', function(user) {
-		db.newUserOrder(user._id, user.order);
+		user_db.newUserOrder(user.email, user.order);
 	});
 
 });

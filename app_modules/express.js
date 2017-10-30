@@ -3,7 +3,9 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./mongoose.js');
+const order_db = require('./mongo_db/order_db.js');
+const menu_db = require('./mongo_db/menu_db.js');
+const user_db = require('./mongo_db/user_db.js');
 //-------------------
 
 const app        = express();
@@ -27,7 +29,7 @@ app.post('/users', function(req, res) {
 	let data = {	email: req.body.email,
 		name: req.body.name	};
 
-		db.loginUser(data).then(user_data => {
+		user_db.loginUser(data).then(user_data => {
 			if(user_data === false){
 				res.status(400).send('email is not validate!');
 			} else {			
@@ -37,7 +39,7 @@ app.post('/users', function(req, res) {
 	});
 
 app.get('/menu', function(req, res) {
-	db.getMenu().then(menu_data => {
+	menu_db.getMenu().then(menu_data => {
 		if(menu_data === false){
 			res.status(404).send('Ups.. Error');
 		} else {
@@ -46,7 +48,7 @@ app.get('/menu', function(req, res) {
 	})
 });
 app.get('/menu/:id', function(req, res) {
-	db.getDish(req.params.id).then(menu_data => {
+	menu_db.getDish(req.params.id).then(menu_data => {
 		if(menu_data === false){
 			res.status(404).send('Ups.. Error');
 		} else {
