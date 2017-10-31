@@ -20,7 +20,7 @@ const Schema = mongoose.Schema;
 
 const OrderScheme = new Schema({
 	_id: String,
-	name: String,
+	title: String,
 	status: String,
 	dish_id: Number,
 	client_email: String

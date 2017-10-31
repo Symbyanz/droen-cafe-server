@@ -137,19 +137,16 @@ function newUserOrder(email_user, newOrder_user) {
 
 
 // принимает -> email (пользователя) , _id (id заказа) , status (блюда) (! _id и id_dish - разное)
-// | ищет пользователя, если не находит возвращает -> false
-// | если находит, внутри result ищет по _id, обновляя статус 
+// | ищет пользователя и обновляет статус 
 // возвращает <- true ..
-function updateUserStatus(email_user, id_dish, newStatus_dish) {
+function updateUserStatus(email_user, _id, newStatus_dish) {
 	return new Promise((res,rej) => {
-		getUser(email_user).then(result => {
-			if(result === false) {
-				res(result);
-			}	else {
-				result.update({ "orders._id" : id_dish }, { "orders.$.status": newStatus_dish }, false).exec();
-				res(true);
-			}
-		})
+		user.findOneAndUpdate(
+			{ 'email': email_user, 'orders._id': _id }, { $set:{ 'orders.$.status': newStatus_dish } },
+			function(err,result){
+				if (err) res(false);
+				else res(true);
+			});
 	})
 }
 //---------------------------------------------------------------

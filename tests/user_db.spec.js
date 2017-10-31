@@ -17,8 +17,6 @@ var new_balance_user = { email: "pankratov.symbyanz@bk.ru", balance: 300};
 var new_orders_user = { email: "pankratov.symbyanz@bk.ru",
 orders: [{"id": 587071, "title": "new order one", "status": "Cooking"},
 {"id": 2294, "title": "Cha Ca Thang Long : Vietnamese Dill Fish with Turmeric", "status": "Arrived"}]	};
-
-var new_status_user = { email: "pankratov.symbyanz@bk.ru", id: 587071, status: "Cooking"};
 // -------------------------------------------------------
 describe('All tests', () => {
 
@@ -158,7 +156,7 @@ describe('All tests', () => {
 			});
 
 			it('update status the dishes from the user(new_status_user) -> true', (done)=> {
-				db.newUserOrder(new_orders_user.email, new_orders_user.id, new_orders_user.status).then(function(res) {
+				db.updateUserStatus('pankratov.symbyanz@bk.ru', 'iunxc34lmhuc', 'Cooking').then(function(res) {
 					if (res === false){
 						done(err);
 					}	else {
@@ -166,10 +164,10 @@ describe('All tests', () => {
 						done();
 					}
 				});				
-			});
+			}).timeout(5000);
+
 
 		});
 
 	});
-
 });

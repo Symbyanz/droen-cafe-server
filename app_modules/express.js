@@ -18,9 +18,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //---------------------------------------------------------
 
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    next();
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+	next();
 });
 
 
@@ -47,6 +47,7 @@ app.get('/menu', function(req, res) {
 		}
 	})
 });
+
 app.get('/menu/:id', function(req, res) {
 	menu_db.getDish(req.params.id).then(menu_data => {
 		if(menu_data === false){
@@ -55,8 +56,18 @@ app.get('/menu/:id', function(req, res) {
 			res.status(200).send(menu_data);
 		}
 	})
-  });
+});
 
+
+app.get('/orders', function(req,res) {
+	order_db.getOrders().then(orders_data => {
+		if(orders_data === false){
+			res.status(404).send('Ups.. Error');
+		} else {
+			res.status(200).send(orders_data);
+		}
+	})
+});
 //---------------------------------------------------------
 
 module.exports   = app;

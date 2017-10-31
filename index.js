@@ -18,14 +18,39 @@ app.get('/', function(req, res) {
 
 
 io.on('connection', function (socket) {
-	console.log('user connection');
 
 	socket.on('updateUserBalance', function(user) {
 		user_db.updateUserBalance(user.email, user.balance);
 	});
 
 	socket.on('newUserOrder', function(user) {
+		// сохранение в базу данных
+		let order = {
+			_id: user.order._id, 
+			title: user.order.title, 
+			status: user.order.status,
+			dish_id: user.order.dish_id, 
+			client_email: user.email
+		}
 		user_db.newUserOrder(user.email, user.order);
+		order_db.addOrder(order);
+
+		io.emit('addOrder', order);
+	});
+
+	socket.on('cookingOrder', function(order_data) {
+		order_db.updateOrderStatus(order_data._id, order_data.status);
+		user_db.updateUserStatus(order_data.client_email, order_data._id, order_data.status);
+
+		io.emit('updateStatus', order_data);
+	});
+
+
+	socket.on('readyOrder', function(order_data) {
+		order_db.deleteOrder(order_data._id);
+		user_db.updateUserStatus(order_data.client_email, order_data._id, order_data.status);
+
+		io.emit('updateStatus', order_data);
 	});
 
 });
