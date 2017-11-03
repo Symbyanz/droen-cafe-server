@@ -67,7 +67,7 @@ function loginUser(data_user) {
 	})
 };
 
-// Не экспортируемая функция 
+
 // принимает -> объект с содержанием email
 // | ищет пользователя по email
 // возвращает <- объект пользователя
@@ -149,8 +149,20 @@ function updateUserStatus(email_user, _id, newStatus_dish) {
 			});
 	})
 }
+
+
+// принимает -> email (пользователя) , _id (id заказа) (! _id и id_dish - разное)
+// | ищет пользователя и обновляет удаляет этот заказ 
+// возвращает <- true ..
+function deleteUserOrder(email_user, _id) {
+	return new Promise((res,rej) => {
+		user.update({email: email_user}, {$pull: {orders: {_id:  _id} }}).exec();
+		res(true);
+	})
+}
 //---------------------------------------------------------------
 //для проверки отдельных ф-ий через mocha - экспортировать
 module.exports = {
-	loginUser, updateUserBalance, newUserOrder, updateUserStatus
+	loginUser, updateUserBalance, newUserOrder,
+	deleteUserOrder, updateUserStatus, getUser
 };

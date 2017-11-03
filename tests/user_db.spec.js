@@ -120,7 +120,7 @@ describe('All tests', () => {
 
 		});
 
-		describe('Test for the functions update data user..',() =>{
+		describe.skip('Test for the functions update data user..',() =>{
 
 			it.skip('update balance user(email , balance) -> true', (done)=> {
 				db.updateUserBalance(new_balance_user.email, new_balance_user.balance).then(function(res) {
@@ -168,6 +168,20 @@ describe('All tests', () => {
 
 
 		});
+
+		describe('Test for the functions delete user order..',() =>{
+
+			it('delete order(email, id) -> true', (done)=> {
+				db.deleteUserOrder('pankratov.symbyanz@bk.ru', 'k02egi0q9mnl').then(function(res) {
+					if (res === false){
+						done(err);
+					}	else {
+						console.log(res);
+						done();
+					}
+				});				
+			}).timeout(5000);
+		})
 
 	});
 });
